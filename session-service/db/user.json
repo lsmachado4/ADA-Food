@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "email": "beltrano@email.com",
+        "password": "cicrano123",
+        "name": "Fulado de Tal",
+        "isAdmin": false,
+        "roles": ["PROFILE_SERVICE"]
+
+    }
+]
