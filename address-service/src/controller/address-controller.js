@@ -3,7 +3,7 @@ const AddressService = require('../service/address-service');
 async function getAddress(req, res) {
 
     try {
-        const { cep } = req.params;
+        const { cep } = req.body;
         if (!cep) {
             throw new Error('CEP is required');
         }
