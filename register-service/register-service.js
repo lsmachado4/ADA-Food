@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   country: String,
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports.User = mongoose.model("User", UserSchema);
 
 class NotificationService {
   static sendEmailConfirmation(email) {
@@ -20,22 +20,4 @@ class NotificationService {
   }
 }
 
-module.exports = NotificationService;
-
-// routes.js
-const express = require("express");
-const User = require("./models/User");
-const NotificationService = require("./services/NotificationService");
-
-const router = express.Router();
-
-router.post("/register", async (req, res) => {
-  const user = new User(req.body);
-  await user.save();
-
-  NotificationService.sendEmailConfirmation(user.email);
-
-  res.status(201).send(user);
-});
-
-module.exports = router;
+module.exports.NotificationService = NotificationService;
