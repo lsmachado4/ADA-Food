@@ -1,12 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const routes = require('./src/routes');
-
+const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3004;
 
 const app = express();
-app.use(express.json()); //aqui podemos acessar o corpo de solicitação do json
-app.use(routes); //aqui acessamos as rotas do arquivo routes
+app.use(express.json()); 
+app.use(routes); 
 
-//conecto o banco aqui?
+
+mongoose.connect(process.env.MONGO_DB_URL)
+    .then(() => {
+        console.log('::: Mongo DB connected :::')
+        app.listen(PORT, () => console.log(`App listening on PORT:::${PORT}`))
+    }).catch(err => console.log('::: Error connecting to Mongo DB :::', err))
