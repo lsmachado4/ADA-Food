@@ -1,13 +1,16 @@
-const userDb = require("../../db/user.json");
+const userDb = require('../models/User')
 
 class UserService {
-    static async userExistsByEmail(email){
-        return userDb.find(user => user.email === email)
-    }
+    static async userExistsByEmail(email) {
+        const user = await userDb.findOne({ email })
 
-    static checkPassword(password, shouldMatchPassword){
-        return password === shouldMatchPassword
+        if(!user) {
+            throw { status: 404, message: 'User not found'}
+        }
+
+        return user
+        
     }
 }
 
-module.exports = UserService;
+module.exports = UserService
