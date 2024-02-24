@@ -12,7 +12,6 @@ class AuthController {
 
         try {
             const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            console.log("payload", payload);
             const name = payload.name;
             res.status(200).json({message: `Usuário ${name} autorizado`});
         } catch (error) {

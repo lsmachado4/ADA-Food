@@ -4,7 +4,6 @@ class SessionHandler {
     static async create(req,res){
         try {
             const {data} = await axios.post(`${process.env.AUTH_SERVICE_URL}/session`, req.body)
-            console.log(data)
             return res.status(200).json(data)
         } catch (error) {
             console.log(error)

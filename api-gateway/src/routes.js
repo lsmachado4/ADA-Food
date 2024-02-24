@@ -1,5 +1,7 @@
 const {Router} = require('express')
 const SessionHandler = require('./handlers/session-handler')
+const authMiddleware = require('./middlewares/auth')
+const AuthHandler = require('./handlers/auth-handler')
 const AddressHandler = require('./handlers/address-handler')
 const routes = new Router()
 
