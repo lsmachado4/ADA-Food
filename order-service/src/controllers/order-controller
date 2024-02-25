@@ -4,7 +4,7 @@ const OrderService = require('../services/order-service');
     static async create(req, res) {
       try {
         const schema = yup.object({
-          id: yup.number().required(),
+          order_id: yup.string().required(),
           user_id: yup.string().required(),
           description: yup.string().required(),
          });
@@ -12,16 +12,16 @@ const OrderService = require('../services/order-service');
          if(!await schema.isValid(req.body)) {
           throw { status: 400, message: 'Validation Fails'}
       }
-        const { id, user_id, description } =  await OrderService.create(req.body)
-
-        
+        const { order_id, user_id, description } = (req.body)
+        const result = await OrderService.create({ order_id, user_id, description })
+        console.log(result, "result")
         return res.status(201).json({
-         message: 'User created with success',
-         user: {
-          id,
-          user_id,
-          description,
-         },
+         message: 'Order created with success',
+         details: {
+            order_id: result.order_id,
+            user_id: result.user_id,
+            description: result.description
+         }
         });
       } catch (error) { 
         res
