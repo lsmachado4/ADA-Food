@@ -1,16 +1,8 @@
-const express = require("express");
-const User = require("./models/User");
-const NotificationService = require("./services/NotificationService");
+const { Router } = require('express');
+const RegisterController = require('./controllers/register-ctlr');
 
-const router = express.Router();
+const routes = new Router();
 
-router.post("/register", async (req, res) => {
-  const user = new User(req.body);
-  await user.save();
+routes.post('/register', RegisterController.create)
 
-  NotificationService.sendEmailConfirmation(user.email);
-
-  res.status(201).send(user);
-});
-
-module.exports = router;
+module.exports = routes;
