@@ -1,19 +1,35 @@
-const { receiveMessages } = require('./src/config/rabbitmq.js')
-const nodemailer = require('./src/config/nodemailer')
-const emailTemplates = require('./src/config/templates')
+const mailService = require('./config/nodemailer');
+const ConnectionRabbitmq = require('./config/rabbitmq');
+const templates = require('./emails/templates');
 
-const main = () => {
-    receiveMessages((message) => {
-        const { notificationName, email } = JSON.parse(message.content.toString())
+class NotificationService {
+    constructor(){
+        this.ConnectionRabbitmq = new ConnectionRabbitmq();
+        this.mailService = mailService;
+        this.main();
+    }
 
-        console.log('Received message', JSON.parse(message.content.toString()))
+    sendMail(queue, email) {
+        const emailToSend = templates[queue];
+        this.mailService.getTransporter().sendMail(emailToSend, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    }
 
-        const sendEmail = emailTemplates[notificationName]
+    receiveMessages() {
+        this.ConnectionRabbitmq.receiveMessages((message) => {
+            const { queue, email } = JSON.parse(message.content.toString());
+            this.sendMail(queue, email);
+        });
+    }
 
-        nodemailer.sendMail(sendEmail).then((info) => {
-            console.log('Email sent: ' + info)
-        })
-    })
+    main() {
+        this.receiveMessages();
+    }
 }
 
-main()
+new NotificationService();
