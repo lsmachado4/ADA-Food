@@ -11,6 +11,7 @@ routes.post('/session', SessionHandler.create)
 routes.use(authMiddleware)
 routes.get('/auth', AuthHandler.auth)
 routes.post('/address', AddressHandler.address)
+routes.post('/register', RegisterHandler.create)
 
 
 module.exports = routes
