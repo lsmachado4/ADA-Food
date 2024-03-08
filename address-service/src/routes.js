@@ -1,9 +1,7 @@
-const express = require('express');
-const AddressController = require('./controller/address-controller');
+const { Router } = require("express");
+const CepApiController = require("./controller/api-cep-ctrl");
+const routes = new Router();
 
-const router = express.Router();
+routes.patch("/address/:id", CepApiController.updateAddress);
 
-router.get('/', AddressController.getAddress);
-
-module.exports = router;
-
+module.exports = routes;
