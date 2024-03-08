@@ -4,7 +4,6 @@ const SessionController = require('./session-ctrl');
 class AuthController {
     static auth(req, res) {
         const {authorization} = req.headers;
-        console.log("Autorização ", authorization);
         if (!authorization) {
             return res.status(401).json({ error: 'Authorization header missing' });
           }
